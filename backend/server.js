@@ -37,7 +37,7 @@ app.get("/api/v1/users", (req, res) => {
 
 app.post("/", (req, res) => {
 
-    // Upload image
+/*     // Upload image
     const picture = req.files.picture;
     const answer = {};
 
@@ -65,6 +65,26 @@ app.post("/", (req, res) => {
                 }
             })
             res.send(answer)
+        }
+    })
+}) */
+
+    fs.readFile("../frontend/users.json", (error, data) => {
+        if (error) {
+            console.log(error);
+            res.send("Error reading users file")
+        } else {
+            const users = JSON.parse(data)
+            console.log(req.body);
+            users.push(req.body)
+            
+            fs.writeFile("../frontend/users.json", JSON.stringify(users), error => {
+                if (error) {
+                    console.log(error);
+                    res.send("Error writing users file")
+                }
+            })
+            res.send(req.body)
         }
     })
 })

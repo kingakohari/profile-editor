@@ -62,20 +62,21 @@ const loadEvent  = async () => {
     rootElement.insertAdjacentHTML("afterend", addUserComponent())
 
    /*  const button = document.querySelector(".save") */
-    const image = document.querySelector(".picture")
-    const firstName = document.querySelector(".fname")
-    const lastName = document.querySelector(".lname")
-    const street = document.querySelector(".street")
-    const houseNumber = document.querySelector(".hnumber")
-    const city = document.querySelector(".city")
-    const zip = document.querySelector(".zip")
-    const country = document.querySelector(".country")
-    const intro = document.querySelector(".intro")
-
 
     const formElement = document.getElementById("form"); 
 
     formElement.addEventListener("submit", e => {
+
+        const image = e.target.querySelector(".picture")
+        const firstName = e.target.querySelector(".fname")
+        const lastName = e.target.querySelector(".lname")
+        const street = e.target.querySelector(".street")
+        const houseNumber = e.target.querySelector(".hnumber")
+        const city = e.target.querySelector(".city")
+        const zip = e.target.querySelector(".zip")
+        const country = e.target.querySelector(".country")
+        const intro = e.target.querySelector(".intro")
+
         const userData = {
             first_name: firstName.value,
             last_name: lastName.value,
