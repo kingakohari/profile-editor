@@ -53,7 +53,7 @@ const addUserComponent = () => {
 }
 
 const loadEvent  = async () => {
-    const result = await parseJSON("/api/v1/users")
+    const result = await parseJSON("/profiles")
     const  rootElement = document.getElementById("root")
     rootElement.insertAdjacentHTML("beforeend", 
         result.map(user => userComponent(user)).join("")
@@ -67,7 +67,7 @@ const loadEvent  = async () => {
 
     formElement.addEventListener("submit", e => {
 
-        const image = e.target.querySelector(".picture")
+        const picture = e.target.querySelector(".picture")
         const firstName = e.target.querySelector(".fname")
         const lastName = e.target.querySelector(".lname")
         const street = e.target.querySelector(".street")
@@ -86,7 +86,7 @@ const loadEvent  = async () => {
             zip: zip.value,
             country: country.value,
             intro: intro.value,
-            image_name: image.files[0]
+            image_name: picture.files[0]
         }
 
 

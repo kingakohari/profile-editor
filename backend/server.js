@@ -8,7 +8,6 @@ app.use(express.json());
 
 const port = 9000;
 
-const fFolder = `${__dirname}/../frontend`
 
 const uploads = path.join(`${__dirname}/../frontend/upload/`);
 
@@ -16,69 +15,66 @@ function getFunction(req, res){
     res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
 }
 
+app.get("/", getFunction);
+
 app.use(fileUpload());
 app.use("/upload", express.static(`${__dirname}/../frontend/upload`));
 app.use("/pub", express.static(`${__dirname}/../frontend/public`));
 
-app.get("/", getFunction);
+const dataLocation = path.join(`${__dirname}/../frontend/data/profile.json`);
+
 
 app.get("/", (req, res, next) => {                 
-    res.sendFile(path.join(`${fFolder}/index.html`));
+    res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
 }) 
 
 
 
-app.get("/", (req, res) => {
-    console.log("Request received for users endpoint.");
-    res.sendFile(path.join(`${fFolder}/profile.json`)); 
+app.get("/profiles", (req, res) => {
+    
+    res.sendFile(path.join(`${dataLocation}`)); 
 })
+
+// If there is a profile.json, read the data from the file, if not, use an empty Array
+let jsonData = [];
+try {
+    let data = fs.readFileSync(`${dataLocation}`, error => {
+        if (error) {
+            console.log(error);
+        }
+    });
+    jsonData = JSON.parse(data);
+} catch (error) {
+    fs.writeFile(`${dataLocation}`, JSON.stringify(jsonData), (error) => {
+        if (error) {
+            console.log(error);
+        }
+    });
+}
+
 
 
 
 app.post("/", (req, res) => {
 
-/*     // Upload image
-    const picture = req.files.picture;
-    const answer = {};
 
-    if (picture) {
-        picture.mv(uploads + "profile.jpg", error => {
-            return res.status(500).send(error);
-        });
-    }
-    answer.pictureName = "profile.jpg";
+    fs.readFile(`${dataLocation}`, (error, data) => {
 
-    fs.readFile("../frontend/profile.json", (error, data) => {
-
-        if (error) {
-            console.log(error);
-            res.send("Error reading profile data")
-        } else {
-            const users = JSON.parse(data)
-            console.log(req.body);
-            users.push(req.body)
-            
-            fs.writeFile("../frontend/profile.json", JSON.stringify(users), error => {
-                if (error) {
-                    console.log(error);
-                    res.send("Error writing users file")
-                }
-            })
-            res.send(answer)
-        }
-    })
-}) */
-
-    fs.readFile("../frontend/profile.json", (error, data) => {
         if (error) {
             console.log(error);
             res.send("Error reading users file")
         } else {
+            const picture = req.files.picture;
+            picture.mv(uploads + "profile.jpg")
+
+            const formData = req.body;
+            formData.image_name = "profile.jpg";
+
             const users = JSON.parse(data)
             console.log(req.body);
             users.push(req.body)
             
-            fs.writeFile("../frontend/profile.json", JSON.stringify(users), error => {
+            fs.writeFile(`${dataLocation}`, JSON.stringify(users), error => {
                 if (error) {
                     console.log(error);
                     res.send("Error writing users file")
