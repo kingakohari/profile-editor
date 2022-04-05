@@ -47,7 +47,8 @@ const addUserComponent = () => {
         <label for="intro">Introduction</label><br>
 		<textarea name="textarea" class="intro" name="intro" placeholder = "About me"></textarea><br>
 
-        <button class="save">Save</button>
+        <input type = "submit" value = "Submit">
+        <input type = "reset" value = "Reset">
     </form>
     `
 }
@@ -60,8 +61,6 @@ const loadEvent  = async () => {
     )
 
     rootElement.insertAdjacentHTML("afterend", addUserComponent())
-
-   /*  const button = document.querySelector(".save") */
 
     const formElement = document.getElementById("form"); 
 
