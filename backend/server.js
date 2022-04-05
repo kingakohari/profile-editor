@@ -1,97 +1,69 @@
 const express = require("express");
+const fileUpload = require("express-fileupload");
+const fs = require("fs");
 const path = require("path");
 const app = express();
-const fs = require('fs')
 
-app.get("/", (req, res) => res.sendFile(path.join(`${__dirname}/../frontend/index.html`)));
+const dataLocation = path.join(`${__dirname}/../frontend/data/`);
+
+
+
+function getFunction(req, res){
+    res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
+}
+
+app.use(fileUpload());
+app.use("/upload", express.static(`${__dirname}/../frontend/upload`));
 app.use("/pub", express.static(`${__dirname}/../frontend/public`));
-/* app.use("/data", express.static(`${__dirname}/../frontend/data`)); */
-app.use(express.json());
 
+app.get("/", getFunction);
 
-/* Create - POST method */
-app.post('/data/add', (req, res) => {
-    //get the existing user data
-    const existUsers = getUserData()
-    
-    //get the new user data from post request
-    const userData = req.body
-    //check if the userData fields are missing
-    if (userData.fullname == null || userData.age == null || userData.username == null || userData.password == null) {
-        return res.status(401).send({error: true, msg: 'User data missing'})
-    }
-    
-    //check if the username exist already
-    const findExist = existUsers.find( user => user.username === userData.username )
-    if (findExist) {
-        return res.status(409).send({error: true, msg: 'username already exist'})
-    }
-    //append the user data
-    existUsers.push(userData)
-    //save the new user data
-    saveUserData(existUsers);
-    res.send({success: true, msg: 'User data added successfully'})
-})
-
-/* Read - GET method */
-app.get('/data/list', (req, res) => {
-    const users = getUserData()
-    res.send(users)
-})
-
-/* Update - Patch method */
-app.patch('/data/update/:username', (req, res) => {
-    //get the username from url
-    const username = req.params.username
-    //get the update data
-    const userData = req.body
-    //get the existing user data
-    const existUsers = getUserData()
-    //check if the username exist or not       
-    const findExist = existUsers.find( user => user.username === username )
-    if (!findExist) {
-        return res.status(409).send({error: true, msg: 'username not exist'})
-    }
-    //filter the userdata
-    const updateUser = existUsers.filter( user => user.username !== username )
-    //push the updated data
-    updateUser.push(userData)
-    //finally save it
-    saveUserData(updateUser)
-    res.send({success: true, msg: 'User data updated successfully'})
-})
-
-/* Delete - Delete method */
-app.delete('/data/delete/:username', (req, res) => {
-    const username = req.params.username
-    //get the existing userdata
-    const existUsers = getUserData()
-    //filter the userdata to remove it
-    const filterUser = existUsers.filter( user => user.username !== username )
-    if ( existUsers.length === filterUser.length ) {
-        return res.status(409).send({error: true, msg: 'username does not exist'})
-    }
-    //save the filtered data
-    saveUserData(filterUser)
-    res.send({success: true, msg: 'User removed successfully'})
-    
-})
-
-/* util functions */
-//read the user data from json file
-const saveUserData = (data) => {
-    const stringifyData = JSON.stringify(data)
-    fs.writeFileSync('users.json', stringifyData)
+// If there is a profile.json, read the data from the file, if not, use an empty Array
+let jsonData = [];
+try {
+    let data = fs.readFileSync(`${dataLocation}profile.json`, error => {
+        if (error) {
+            console.log(error);
+        }
+    });
+    jsonData = JSON.parse(data);
+} catch (error) {
+    fs.writeFile(`${dataLocation}profile.json`, JSON.stringify(jsonData), (error) => {
+        if (error) {
+            console.log(error);
+        }
+    });
 }
-//get the user data from json file
-const getUserData = () => {
-    const jsonData = fs.readFileSync('users.json')
-    return JSON.parse(jsonData)    
-}
-/* util functions ends */
+
+const uploads = path.join(`${__dirname}/../frontend/upload/`);
+
+app.post("/", (req, res) => {
+    // Upload image
+    const picture = req.files.picture;
+    const answer = {};
+
+    if (picture) {
+        picture.mv(uploads + "profile.jpg", error => {
+            return res.status(500).send(error);
+        });
+    }
+    answer.pictureName = "profile.jpg";
+
+    // Upload data from form
+    const formData = req.body;
+    formData.image_name = "profile.jpg";
+    jsonData.push(formData);
+
+    fs.writeFile(`${dataLocation}profile.json`, JSON.stringify(jsonData), (error) => {
+        if (error) {
+            console.log(error);
+        }
+    });
+    res.send(answer);
+});
 
 const port = 9000;
-const ipAddress = `http://127.0.0.1:${port}`
+const ipAddress = `http://127.0.0.1:${port}`;
 app.listen(port, () => {
     console.log(ipAddress)
 });
