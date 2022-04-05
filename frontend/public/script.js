@@ -12,7 +12,7 @@ const userComponent = ({first_name, last_name, street, house_number, city, zip, 
         <p1>${city}</p1><br>
         <p1>${zip}</p1><br>
         <p1>${country}</p1><br>
-        <p>${introduction}</p>
+        <p>Introduction:<br>${introduction}</p>
     </div>
     `
 }
