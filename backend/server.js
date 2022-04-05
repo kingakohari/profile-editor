@@ -28,7 +28,7 @@ app.get("/", (req, res, next) => {
 
 
 
-app.get("/api/v1/users", (req, res) => {
+app.get("/", (req, res) => {
     console.log("Request received for users endpoint.");
     res.sendFile(path.join(`${fFolder}/profile.json`)); 
 })
@@ -69,7 +69,7 @@ app.post("/", (req, res) => {
     })
 }) */
 
-    fs.readFile("../frontend/users.json", (error, data) => {
+    fs.readFile("../frontend/profile.json", (error, data) => {
         if (error) {
             console.log(error);
             res.send("Error reading users file")
@@ -78,7 +78,7 @@ app.post("/", (req, res) => {
             console.log(req.body);
             users.push(req.body)
             
-            fs.writeFile("../frontend/users.json", JSON.stringify(users), error => {
+            fs.writeFile("../frontend/profile.json", JSON.stringify(users), error => {
                 if (error) {
                     console.log(error);
                     res.send("Error writing users file")
