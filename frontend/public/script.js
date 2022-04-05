@@ -3,11 +3,16 @@ const parseJSON = async (url) => {
     return response.json()
 }
 
-const userComponent = ({firstName, lastName}) => {
+const userComponent = ({first_name, last_name, street, house_number, city, zip, country, introduction, image_name}) => {
     return `
     <div>
-        <h1>${firstName}</h1>
-        <h2>${lastName}</h2>
+        <img src="upload/${image_name}">
+        <h1>${first_name} ${last_name}</h1>
+        <p1>${street} ${house_number}</p1><br>
+        <p1>${city}</p1><br>
+        <p1>${zip}</p1><br>
+        <p1>${country}</p1><br>
+        <p>${introduction}</p>
     </div>
     `
 }
@@ -16,87 +21,83 @@ const addUserComponent = () => {
     return`
     <form id="form">
 
-        <input type="file" id="picture" name="picture"><br>
+        <input type="file" class="picture" name="picture"><br>
 
         <label for="fname">First name</label><br>
-        <input type="text" id="fname" name="fname"><br>
+        <input type="text" class="fname" name="fname"><br>
 
         <label for="lname">Last name</label><br>
-        <input type="text" id="lname" name="lname"><br>
+        <input type="text" class="lname" name="lname"><br>
 
         <label for="street">Street</label><br>
-        <input type="text" id="street" name="street"><br>
+        <input type="text" class="street" name="street"><br>
 
         <label for="hnumber">House number</label><br>
-        <input type="text" id="hnumber" name="hnumber"><br>
+        <input type="text" class="hnumber" name="hnumber"><br>
 
         <label for="city">City</label><br>
-        <input type="text" id="city" name="city"><br>
+        <input type="text" class="city" name="city"><br>
 
         <label for="zip">Zip code</label><br>
-        <input type="number" id="zip" name="zip" min="1000" max="99999"><br>
+        <input type="number" class="zip" name="zip" min="1000" max="99999"><br>
 
         <label for="country">Country</label><br>
-        <input type="text" id="country" name="country"><br>
+        <input type="text" class="country" name="country"><br>
 
         <label for="intro">Introduction</label><br>
-		<textarea name="textarea" id="intro" name="intro" placeholder = "About me"></textarea><br>
+		<textarea name="textarea" class="intro" name="intro" placeholder = "About me"></textarea><br>
 
-        <button>Save</button>
+        <button class="save">Save</button>
     </form>
-`;
+    `
+}
 
-function loadEvent() {
-    const rootElement = document.getElementById("root");
+const loadEvent  = async () => {
+    const result = await parseJSON("/api/v1/users")
+    const  rootElement = document.getElementById("root")
+    rootElement.insertAdjacentHTML("beforeend", 
+        result.map(user => userComponent(user)).join("")
+    )
 
-    rootElement.insertAdjacentHTML("beforeend", formComponent);
+    rootElement.insertAdjacentHTML("afterend", addUserComponent())
 
-    const formElement = document.getElementById("form");
+   /*  const button = document.querySelector(".save") */
+    const image = document.querySelector(".picture")
+    const firstName = document.querySelector(".fname")
+    const lastName = document.querySelector(".lname")
+    const street = document.querySelector(".street")
+    const houseNumber = document.querySelector(".hnumber")
+    const city = document.querySelector(".city")
+    const zip = document.querySelector(".zip")
+    const country = document.querySelector(".country")
+    const intro = document.querySelector(".intro")
+
+
+    const formElement = document.getElementById("form"); 
+
     formElement.addEventListener("submit", e => {
-        e.preventDefault();
+        const userData = {
+            first_name: firstName.value,
+            last_name: lastName.value,
+            street: street.value,
+            house_number: houseNumber.value,
+            city: city.value,
+            zip: zip.value,
+            country: country.value,
+            intro: intro.value,
+            image_name: image.files[0]
+        }
 
-        const formData = new FormData();
-        formData.append("picture", e.target.querySelector("#picture").files[0]);
-        formData.append("first_name", e.target.querySelector("#fname").value);
-        formData.append("last_name", e.target.querySelector("#lname").value);
-        formData.append("house_number", e.target.querySelector("#hnumber").value);
-        formData.append("street", e.target.querySelector("#street").value);
-        formData.append("city", e.target.querySelector("#city").value);
-        formData.append("zip", e.target.querySelector("#zip").value);
-        formData.append("country", e.target.querySelector("#country").value);
-        formData.append("introduction", e.target.querySelector("#intro").value);
 
-        const fetchSettings = {
+        fetch("/", {
             method: "POST",
-            body: formData
-        };
-
-        fetch("/", fetchSettings)
+            body: JSON.stringify(userData)
+            })
             .then(async data => {
-                if (data.status === 200) {
-                    const res = await data.json();
+                const user = await data.json()
 
-                    e.target.outerHTML = `
-                    <div>
-                        <img src="upload/${res.pictureName}">
-                        <h1>${formData.first_name} ${formData.last_name}</h1>
-                        <p1>${formData.street} ${formData.house_number}</p1><br>
-                        <p1>${formData.city}</p1><br>
-                        <p1>${formData.zip}</p1><br>
-                        <p1>${formData.country}</p1><br>
-                        <p>${formData.introduction}</p>
-                    </div>
-                    `
-                    ;
-
-                    
-                    console.dir(data);
-                } 
-            })
-            .catch(error => {
-                e.target.outerHTML = `Error`;
-                console.dir(error);
-            })
+                rootElement.insertAdjacentHTML("beforeend", userComponent(user))
+        })     
     });
 }
 
