@@ -58,17 +58,15 @@ try {
 app.post("/", (req, res) => {
 
 
+/* const picture = req.files.picture;
+picture.mv(uploads + "profile.jpg") */
+
     fs.readFile(`${dataLocation}`, (error, data) => {
 
         if (error) {
             console.log(error);
             res.send("Error reading users file")
         } else {
-            const picture = req.files.picture;
-            picture.mv(uploads + "profile.jpg")
-
-            const formData = req.body;
-            formData.image_name = "profile.jpg";
 
             const users = JSON.parse(data)
             console.log(req.body);
@@ -80,6 +78,7 @@ app.post("/", (req, res) => {
                     res.send("Error writing users file")
                 }
             })
+            /* res.send(picture) */
             res.send(req.body)
         }
     })
