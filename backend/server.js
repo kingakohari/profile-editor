@@ -1,34 +1,41 @@
+
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
 const app = express();
+app.use(express.json());
 
+const port = 9000;
+
+const fFolder = `${__dirname}/../frontend`
 const dataLocation = path.join(`${__dirname}/../frontend/data/`);
 
+app.get("/", (req, res, next) => {                
+    res.sendFile(path.join(`${fFolder}/index.html`));
+}) 
 
-
-function getFunction(req, res){
-    res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
-}
+app.get("/api/v1/profile", (req, res) => {
+    console.log("Request received for profile endpoint.");
+    res.sendFile(path.join(`${fFolder}/profile.json`));
+})
 
 app.use(fileUpload());
 app.use("/upload", express.static(`${__dirname}/../frontend/upload`));
 app.use("/pub", express.static(`${__dirname}/../frontend/public`));
 
-app.get("/", getFunction);
 
-// If there is a profile.json, read the data from the file, if not, use an empty Array
+// If there is a data.json, read the data from the file, if not, use an empty Array
 let jsonData = [];
 try {
-    let data = fs.readFileSync(`${dataLocation}profile.json`, error => {
+    let data = fs.readFileSync(`${dataLocation}images.json`, error => {
         if (error) {
             console.log(error);
         }
     });
     jsonData = JSON.parse(data);
 } catch (error) {
-    fs.writeFile(`${dataLocation}profile.json`, JSON.stringify(jsonData), (error) => {
+    fs.writeFile(`${dataLocation}images.json`, JSON.stringify(jsonData), (error) => {
         if (error) {
             console.log(error);
         }
@@ -54,7 +61,7 @@ app.post("/", (req, res) => {
     formData.image_name = "profile.jpg";
     jsonData.push(formData);
 
-    fs.writeFile(`${dataLocation}profile.json`, JSON.stringify(jsonData), (error) => {
+    fs.writeFile(`${dataLocation}images.json`, JSON.stringify(jsonData), (error) => {
         if (error) {
             console.log(error);
         }
@@ -62,8 +69,29 @@ app.post("/", (req, res) => {
     res.send(answer);
 });
 
-const port = 9000;
-const ipAddress = `http://127.0.0.1:${port}`;
+
+app.post("/profile/new", (req, res) => {
+    fs.readFile("../frontend/profile.json", (error, data) => {
+        if (error) {
+            console.log(error);
+            res.send("Error reading profile JSON")
+        } else {
+            const profile = JSON.parse(data)
+            console.log(req.body);
+            profile.push(req.body)
+            
+            fs.writeFile("../frontend/profile.json", JSON.stringify(profile), error => {
+                if (error) {
+                    console.log(error);
+                    res.send("Error writing profile JSON")
+                }
+            })
+            res.send(req.body)
+        }
+    })
+})
+
+
 app.listen(port, () => {
-    console.log(ipAddress)
-});
+    console.log(`http://127.0.0.1:${port}`);
+})
