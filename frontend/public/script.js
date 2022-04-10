@@ -69,7 +69,7 @@ const loadEvent = async (e) => {
 
     rootElement.insertAdjacentHTML("afterend", pictureComponent);
     
-    /* const resetBtn = e.target.querySelector(".reset") */
+    const resetBtn = e.target.querySelector(".reset") 
     const dataBtn = e.target.querySelector(".buttonData")
     const picBtn = e.target.querySelector(".buttonPic")
 
@@ -82,30 +82,16 @@ const loadEvent = async (e) => {
     const country = e.target.querySelector(".country")
     const intro = e.target.querySelector(".intro")
         
-/*  Empty all fields on button click (upload fails when activated):
 
-    const inputFields1 = document.querySelector(".inputField1")
-    const inputFields2 = document.querySelector(".inputField2")
-    const inputFields3 = document.querySelector(".inputField3")
-    const inputFields4 = document.querySelector(".inputField4")
-    const inputFields5 = document.querySelector(".inputField5")
-    const inputFields6 = document.querySelector(".inputField6")
-    const inputFields7 = document.querySelector(".inputField7")
-    const inputFields8 = document.querySelector(".inputField8")
+    /* Empty all fields on button click: */
 
     resetBtn.addEventListener("click", () => {
-        inputFields1.value = ""
-        inputFields2.value = ""
-        inputFields3.value = ""
-        inputFields4.value = ""
-        inputFields5.value = ""
-        inputFields6.value = ""
-        inputFields7.value = ""
-        inputFields8.value = ""
-     })  
+        inputFields.forEach(input => input.value = '')
+        document.getElementById("pic").remove()
+    })
 
 
-    Delete data from profile.json on click (fails):    
+ /*   Delete data from profile.json on click (fails):    
 
     resetBtn.addEventListener("click", event => {
 
