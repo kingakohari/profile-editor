@@ -53,7 +53,7 @@ const addUserComponent = () => {
 const pictureComponent = `
     <form id="form">
         <input type="text" name="title">
-        <input type="file" name="picture">
+        <input id="pic" type="file" name="picture">
         <button class=buttonPic>Send</button>
     </form>
 `;
