@@ -91,6 +91,29 @@ app.post("/profile/new", (req, res) => {
     })
 })
 
+/* app.post("/profile/delete", (req, res) => {
+    fs.readFile("../frontend/profile.json", (error, data) => {
+        if (error) {
+            res.send("Error reading profile JSON")
+        } else {
+            const profile = JSON.parse(data)
+            const deletedUser = profile.filter(user => user.first_name === req.body.first_name && user.last_name === req.body.last_name);
+                if (deletedUser){
+                    profile.splice(0, profile.length)
+                    res.send("User removed successfully")
+                } 
+
+            
+            fs.writeFile("../frontend/profile.json", JSON.stringify(profile), error => {
+                if (error) {
+                    console.log(error);
+                    res.send("Error writing profile JSON")
+                } 
+            }) 
+            res.send(req.body)
+        }
+    })
+})    */
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);
