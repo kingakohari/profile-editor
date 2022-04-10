@@ -45,7 +45,7 @@ const addUserComponent = () => {
         <textarea name="textarea" class="intro" name="intro" placeholder = "About me"></textarea><br>
 
         <button class="buttonData">Save</button>
-        <button class ="reset">Delete</button>
+        <button class="reset">Delete</button>
     </div>
     `
 }
@@ -86,7 +86,7 @@ const loadEvent = async (e) => {
     /* Empty all fields on button click: */
 
     resetBtn.addEventListener("click", () => {
-        inputFields.forEach(input => input.value = '')
+        inputFields.forEach(input => input.value = "")
         document.getElementById("pic").remove()
     })
 
@@ -108,8 +108,7 @@ const loadEvent = async (e) => {
                 if (data.status === 200) {
                     const user = await data.json()
                     
-                    rootElement.innerHTML = "Your profile data has been deleted"
-                
+                    rootElement.innerHTML = "Your profile data has been deleted"             
             }
             
         })
