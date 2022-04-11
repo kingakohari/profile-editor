@@ -137,7 +137,7 @@ const loadEvent = async (e) => {
                 if (data.status === 200) {
                     const res = await data.json();
 
-                    form.innerHTML = `<img src=upload/${res.pictureName}>`
+                    form.outerHTML = `<img id="profileImg" src=upload/${res.pictureName}>`
                     console.dir(data);
                 } 
             })

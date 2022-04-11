@@ -137,3 +137,50 @@ button {
     color: #fff;
     font-family: 'Poppins', sans-serif;
 }
+
+#userComponent {
+    width: 350px;
+	height: 400px;
+    top: 120px;
+	left: calc(50% - 175px);
+	border-radius: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	margin: auto;
+    padding-bottom: 15px;
+    text-align: center;
+    justify-content: center;
+    line-height: 1.5em;
+	position: absolute;
+	border-top: 4px solid tomato;
+	background-color: #d5d7df;
+    color: rgb(18, 19, 18);
+    font-family: 'Poppins', sans-serif;
+}
+  
+#userComponent h1 {
+    width: 350px;
+    margin: 0;
+    padding: 20px 0 200px 0;
+    border-radius: 50px;
+    font-size: 25px;
+    background: linear-gradient(to left, #bd29b5 0%,#2d1152 100%);
+    color: #fff;
+}
+
+#userComponent p {
+    padding-top: 15px;
+    font-weight: 400;
+}
+
+#profileImg {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: blue;
+}
+
+img {
+    width: 100%;
+}
