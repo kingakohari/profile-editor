@@ -21,28 +21,28 @@ const addUserComponent = () => {
     return`
     <div id="addUser">
         <label for="fname">First name</label><br>
-        <input type="text" class="fname" name="fname"><br>
+        <input type="text" class="fname inputField" name="fname"><br>
 
         <label for="lname">Last name</label><br>
-        <input type="text" class="lname" name="lname"><br>
+        <input type="text" class="lname inputField" name="lname"><br>
 
         <label for="street">Street</label><br>
-        <input type="text" class="street" name="street"><br>
+        <input type="text" class="street inputField" name="street"><br>
 
         <label for="hnumber">House number</label><br>
-        <input type="text" class="hnumber" name="hnumber"><br>
+        <input type="text" class="hnumber inputField" name="hnumber"><br>
 
         <label for="city">City</label><br>
-        <input type="text" class="city" name="city"><br>
+        <input type="text" class="city inputField" name="city"><br>
 
         <label for="zip">Zip code</label><br>
-        <input type="number" class="zip" name="zip" min="1000" max="99999"><br>
+        <input type="number" class="zip inputField" name="zip" min="1000" max="99999"><br>
 
         <label for="country">Country</label><br>
-        <input type="text" class="country" name="country"><br>
+        <input type="text" class="country inputField" name="country"><br>
 
         <label for="intro">Introduction</label><br>
-        <textarea name="textarea" class="intro" name="intro" placeholder = "About me"></textarea><br>
+        <textarea name="textarea" class="intro inputField" name="intro" placeholder = "About me"></textarea><br>
 
         <button class="buttonData">Save</button>
         <button class="reset">Delete</button>
@@ -52,7 +52,7 @@ const addUserComponent = () => {
 
 const pictureComponent = `
     <form id="form">
-        <input type="text" name="title">
+        <input type="text" class="inputField" name="title">
         <input id="pic" type="file" name="picture">
         <button class=buttonPic>Send</button>
     </form>
@@ -69,7 +69,7 @@ const loadEvent = async (e) => {
 
     rootElement.insertAdjacentHTML("afterend", pictureComponent);
     
-    const inputFields = document.querySelectorAll("input")
+    const inputFields = e.target.querySelectorAll(".inputField")
     const resetBtn = e.target.querySelector(".reset") 
     const dataBtn = e.target.querySelector(".buttonData")
     const picBtn = e.target.querySelector(".buttonPic")
@@ -87,7 +87,7 @@ const loadEvent = async (e) => {
 
     resetBtn.addEventListener("click", () => {
         inputFields.forEach(input => input.value = "")
-        document.getElementById("pic").remove()
+        document.getElementById("pic").value ="" 
     })
 
     dataBtn.addEventListener("click", () => {

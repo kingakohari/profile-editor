@@ -44,7 +44,6 @@ body {
     height: 100vh;
     max-width: 1920px;
     color: #fff;
-
 }
 
 header {
@@ -53,7 +52,7 @@ header {
     position: absolute;
     align-content: center;
 	text-align: center;
-	top: 50px;
+	top: 30px;
     font-family: 'Roboto';
 	text-transform: uppercase;
 	font-weight: 900;
@@ -67,17 +66,16 @@ header span {
 }
 #addUser {
     width: 350px;
-	height: 820px;
-    top: 120px;
+	height: 800px;
+    top: 100px;
 	left: calc(50% - 175px);
-	border-radius: 0px;
+	border-radius: 15px;
 	overflow: hidden;
 	margin: auto;
 	position: absolute;
-	border-top: 4px solid tomato;
+	border-top: 4px solid rgb(243, 93, 66);
 	background: #1E202B;
     font-family: 'Poppins', sans-serif;
-
 }
 
 #form {
@@ -85,12 +83,11 @@ header span {
 	height: auto;
     bottom: 40px;
 	left: calc(50% - 175px);
-	border-radius: 0px;
+	border-radius: 15px;
 	overflow: hidden;
 	margin: auto;
-    margin-top: 350px;
 	position: absolute;
-	border-top: 4px solid tomato;
+	border-top: 4px solid rgb(243, 93, 66);
 	background: #9056d3;
     font-family: 'Poppins', sans-serif;
 }
@@ -140,7 +137,7 @@ button {
 
 #userComponent {
     width: 350px;
-	height: 400px;
+	height: 420px;
     top: 120px;
 	left: calc(50% - 175px);
 	border-radius: 50px;
@@ -161,6 +158,7 @@ button {
 #userComponent h1 {
     width: 350px;
     margin: 0;
+    margin-bottom: 15px;
     padding: 20px 0 200px 0;
     border-radius: 50px;
     font-size: 25px;
@@ -169,18 +167,22 @@ button {
 }
 
 #userComponent p {
-    padding-top: 15px;
+    margin-bottom: 15px;
     font-weight: 400;
 }
 
 #profileImg {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     overflow: hidden;
     background-color: blue;
 }
 
 img {
-    width: 100%;
+    top: 190px;
+	left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    z-index: 100;
 }
