@@ -82,6 +82,8 @@ const loadEvent = async (e) => {
     const zip = e.target.querySelector(".zip")
     const country = e.target.querySelector(".country")
     const intro = e.target.querySelector(".intro")
+
+
         
 /* Empty all fields on button click: */
 
@@ -90,8 +92,45 @@ const loadEvent = async (e) => {
         document.getElementById("pic").remove()
     })
 
-    dataBtn.addEventListener("click", () => {
 
+/*   Delete data from profile.json on click (works with bug):      
+    resetBtn.addEventListener("click", event => {
+
+        event.preventDefault()
+
+        const userData = {
+        first_name: firstName.value,
+        last_name: lastName.value,
+        street: street.value,
+        house_number: houseNumber.value,
+        city: city.value,
+        zip: zip.value,
+        country: country.value,
+        intro: intro.value,
+        }
+            
+        fetch("/profile/delete", {
+            method: "POST",
+             headers: {
+                "Content-Type" : "application/json"
+            }, 
+            body: JSON.stringify(userData)
+            })
+            .then(async data => {
+                if (data.status === 200) {
+                    const user = await data.json()
+                    
+                    rootElement.innerHTML = "Your profile data has been deleted"             
+            }
+            
+        })
+        .catch(error => {
+            console.dir(error);
+        }) 
+    }); */
+
+
+    dataBtn.addEventListener("click", () => {
 
         const userData = {
             first_name: firstName.value,
