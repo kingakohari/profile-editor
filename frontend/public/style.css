@@ -1,0 +1,139 @@
+/* * {
+margin: 0;
+padding: 0;
+border: 0;
+outline: none;
+box-sizing: border-box;
+background: transparent;
+font-family: inherit;
+}
+
+a {
+text-decoration: none;
+}
+
+a img {
+border: none;
+}
+
+button,
+a {
+cursor: pointer;
+color: inherit;
+}
+
+textarea {
+resize: none;
+}
+
+button,
+textarea,
+select {
+appearance: none !important;
+border-radius: 0;
+}
+
+End of CSS reset*/
+
+body {
+    background: linear-gradient(to left, #FF00C7 0%,#00c7ff 100%);
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+    max-width: 1920px;
+    color: #fff;
+
+}
+
+header {
+	width: 100%;
+	height: 100%;
+    position: absolute;
+    align-content: center;
+	text-align: center;
+	top: 50px;
+    font-family: 'Roboto';
+	text-transform: uppercase;
+	font-weight: 900;
+	color: #fff;
+	font-size: 35px;
+}
+
+header span {
+    font-weight: 100;
+	font-style: italic;
+}
+#addUser {
+    width: 350px;
+	height: 820px;
+    top: 120px;
+	left: calc(50% - 175px);
+	border-radius: 0px;
+	overflow: hidden;
+	margin: auto;
+	position: absolute;
+	border-top: 4px solid tomato;
+	background: #1E202B;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+#form {
+	width: 350px;
+	height: auto;
+    bottom: 40px;
+	left: calc(50% - 175px);
+	border-radius: 0px;
+	overflow: hidden;
+	margin: auto;
+    margin-top: 350px;
+	position: absolute;
+	border-top: 4px solid tomato;
+	background: #9056d3;
+    font-family: 'Poppins', sans-serif;
+}
+
+input {
+	width: 92%;
+	height: 25px;
+	border-radius: 3px;
+	position: relative;
+	overflow: hidden;
+    margin: 10px;
+    background: #f2f2f8;
+}
+
+textarea {
+    width: 92%;
+	height: 40px;
+	border-radius: 3px;
+	position: relative;
+	overflow: hidden;
+    margin: 10px;
+    background: #f2f2f8;
+}
+
+label {
+    margin-left: 5%;
+}
+
+#pic {
+    background: #9056d3;
+}
+
+button {
+    display: flex;
+    width: 120px;
+    height: 30px;
+    margin: auto;
+    margin-bottom: 20px; 
+    text-align: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #1d8eda;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}

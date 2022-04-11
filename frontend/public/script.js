@@ -5,7 +5,7 @@ const parseJSON = async (url) => {
 
 const userComponent = ({first_name, last_name, street, house_number, city, zip, country, intro}) => {
     return `
-    <div>
+    <div id="userComponent">
         <h1>${first_name} ${last_name}</h1>
         <p1>${street} ${house_number}</p1><br>
         <p1>${city}</p1><br>
@@ -19,7 +19,7 @@ const userComponent = ({first_name, last_name, street, house_number, city, zip, 
 
 const addUserComponent = () => {
     return`
-    <div>
+    <div id="addUser">
         <label for="fname">First name</label><br>
         <input type="text" class="fname" name="fname"><br>
 
