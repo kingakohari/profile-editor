@@ -69,10 +69,11 @@ const loadEvent = async (e) => {
 
     rootElement.insertAdjacentHTML("afterend", pictureComponent);
     
+    const inputFields = document.querySelectorAll("input")
     const resetBtn = e.target.querySelector(".reset") 
     const dataBtn = e.target.querySelector(".buttonData")
     const picBtn = e.target.querySelector(".buttonPic")
-
+    
     const firstName = e.target.querySelector(".fname")
     const lastName = e.target.querySelector(".lname")
     const street = e.target.querySelector(".street")
@@ -82,43 +83,15 @@ const loadEvent = async (e) => {
     const country = e.target.querySelector(".country")
     const intro = e.target.querySelector(".intro")
         
-
-    /* Empty all fields on button click: */
+/* Empty all fields on button click: */
 
     resetBtn.addEventListener("click", () => {
         inputFields.forEach(input => input.value = "")
         document.getElementById("pic").remove()
     })
 
-
- /*   Delete data from profile.json on click (fails):    
-
-    resetBtn.addEventListener("click", event => {
-
-        event.preventDefault()
-            
-        fetch("/profile/delete", {
-            method: "POST",
-             headers: {
-                "Content-Type" : "application/json"
-            }, 
-            body: JSON.stringify(userData)
-            })
-            .then(async data => {
-                if (data.status === 200) {
-                    const user = await data.json()
-                    
-                    rootElement.innerHTML = "Your profile data has been deleted"             
-            }
-            
-        })
-        .catch(error => {
-            console.dir(error);
-        }) 
-    }); */
-
-
     dataBtn.addEventListener("click", () => {
+
 
         const userData = {
             first_name: firstName.value,
@@ -172,8 +145,6 @@ const loadEvent = async (e) => {
                 console.dir(error);
             })
     });
-
-   
 }
 
 window.addEventListener("load", loadEvent)
