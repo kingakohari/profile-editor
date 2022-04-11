@@ -66,7 +66,7 @@ header span {
 }
 #addUser {
     width: 350px;
-	height: 800px;
+	height: 750px;
     top: 100px;
 	left: calc(50% - 175px);
 	border-radius: 15px;
@@ -81,7 +81,7 @@ header span {
 #form {
 	width: 350px;
 	height: auto;
-    bottom: 40px;
+    top: 850px;
 	left: calc(50% - 175px);
 	border-radius: 15px;
 	overflow: hidden;
