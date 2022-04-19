@@ -91,8 +91,34 @@ app.post("/profile/new", (req, res) => {
     })
 })
 
-/* app.post("/profile/delete", (req, res) => {
-    fs.readFile("../frontend/profile.json", (error, data) => {
+/* Keys added without values */
+
+app.delete("/profile/delete", (req, res) => {
+
+    const profile = JSON.parse(data) 
+
+    profile.splice(0, profile.length)
+
+    fs.writeFileSync("../frontend/profile.json", JSON.stringify(profile), (error) => {
+        if (error) {
+            console.log(error);
+        }
+    })
+
+    const removePath = __dirname + "/../frontend/upload/profile.jpg";
+
+    if (fs.existsSync(removePath)) {
+        fs.unlinkSync(removePath, err => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+        })
+    }
+
+    return res.status(200).send({response: `Your profile picture has been deleted succesfully!`});
+
+    /* fs.readFile("../frontend/profile.json", (error, data) => {
         if (error) {
             res.send("Error reading profile JSON")
         } else {
@@ -112,8 +138,8 @@ app.post("/profile/new", (req, res) => {
             }) 
             res.send(req.body)
         }
-    })
-}) */  
+    }) */
+}) 
 
 
 

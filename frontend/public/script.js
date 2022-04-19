@@ -82,19 +82,52 @@ const loadEvent = async (e) => {
     const zip = e.target.querySelector(".zip")
     const country = e.target.querySelector(".country")
     const intro = e.target.querySelector(".intro")
-        
+    
+    let userData = {
+        first_name: firstName.value,
+        last_name: lastName.value,
+        street: street.value,
+        house_number: houseNumber.value,
+        city: city.value,
+        zip: zip.value,
+        country: country.value,
+        intro: intro.value,
+    }
+
 /* Empty all fields on button click: */
 
-    resetBtn.addEventListener("click", () => {
+    resetBtn.addEventListener("click", event => {
         inputFields.forEach(input => input.value = "")
         document.getElementById("pic").value ="" 
+
+
+        /* const removeFetchSettings = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }, 
+            body: JSON.stringify(userData)
+        }
+
+        fetch("/profile/delete", removeFetchSettings)
+        .then(async data => {
+            if (data.status === 200) {
+                const res = await data.json();
+                console.log(res.response);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        userData.remove(); */
     })
 
+    
 
+    
 /*   Delete data from profile.json on click (works with bug):      
     resetBtn.addEventListener("click", event => {
-
-        event.preventDefault()
 
         const userData = {
         first_name: firstName.value,
@@ -130,16 +163,6 @@ const loadEvent = async (e) => {
 
     dataBtn.addEventListener("click", () => {
 
-        const userData = {
-            first_name: firstName.value,
-            last_name: lastName.value,
-            street: street.value,
-            house_number: houseNumber.value,
-            city: city.value,
-            zip: zip.value,
-            country: country.value,
-            intro: intro.value,
-        }
     
         fetch("/profile/new", {
             method: "POST",
