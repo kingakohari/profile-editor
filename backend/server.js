@@ -99,7 +99,7 @@ app.delete("/profile/delete", (req, res) => {
 
     profile.splice(0, profile.length)
 
-    fs.writeFileSync("../frontend/profile.json", JSON.stringify(profile), (error) => {
+    fs.writeFileSync("../frontend/profile.json", [], (error) => {
         if (error) {
             console.log(error);
         }
@@ -130,7 +130,7 @@ app.delete("/profile/delete", (req, res) => {
                 } 
 
             
-            fs.writeFile("../frontend/profile.json", JSON.stringify(profile), error => {
+            fs.writeFile("../frontend/profile.json", [], error => {
                 if (error) {
                     console.log(error);
                     res.send("Error writing profile JSON")

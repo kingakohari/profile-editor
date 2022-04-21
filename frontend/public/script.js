@@ -62,7 +62,7 @@ const pictureComponent = `
 const loadEvent = async (e) => {
 
 
-    const result = await parseJSON("/api/v1/profile")
+    let result = await parseJSON("/api/v1/profile")
     const rootElement = document.getElementById("root")
     
     rootElement.insertAdjacentHTML("beforeend", addUserComponent())
@@ -96,10 +96,10 @@ const loadEvent = async (e) => {
 
 /* Empty all fields on button click: */
 
-    resetBtn.addEventListener("click", event => {
+    resetBtn.addEventListener("click", _ => {
         inputFields.forEach(input => input.value = "")
         document.getElementById("pic").value ="" 
-
+        result = []
 
         /* const removeFetchSettings = {
             method: "DELETE",
