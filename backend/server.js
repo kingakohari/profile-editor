@@ -8,16 +8,16 @@ app.use(express.json());
 
 const port = 9000;
 
-const fFolder = `${__dirname}/../frontend`
-const dataLocation = path.join(`${__dirname}/../frontend/data/`);
+const pathToFrontend = `${__dirname}/../frontend`
+
 
 app.get("/", (req, res, next) => {                
-    res.sendFile(path.join(`${fFolder}/index.html`));
+    res.sendFile(path.join(`${pathToFrontend}/index.html`));
 }) 
 
 app.get("/api/v1/profile", (req, res) => {
-    console.log("Request received for profile endpoint.");
-    res.sendFile(path.join(`${fFolder}/profile.json`));
+    console.log("Profile editor running");
+    res.sendFile(path.join(`${pathToFrontend}/profile.json`));
 })
 
 app.use(fileUpload());
@@ -28,14 +28,14 @@ app.use("/pub", express.static(`${__dirname}/../frontend/public`));
 // If there is a data.json, read the data from the file, if not, use an empty Array
 let jsonData = [];
 try {
-    let data = fs.readFileSync(`${dataLocation}images.json`, error => {
+    let data = fs.readFileSync(`${pathToFrontend}/profile.json`, error => {
         if (error) {
             console.log(error);
         }
     });
     jsonData = JSON.parse(data);
 } catch (error) {
-    fs.writeFile(`${dataLocation}images.json`, JSON.stringify(jsonData), (error) => {
+    fs.writeFile(`${pathToFrontend}/profile.json`, JSON.stringify(jsonData), (error) => {
         if (error) {
             console.log(error);
         }
@@ -44,52 +44,47 @@ try {
 
 const uploads = path.join(`${__dirname}/../frontend/upload/`);
 
-app.post("/", (req, res) => {
+app.post("/profile/new", (req, res) => {
     // Upload image
     const picture = req.files.picture;
-    const answer = {};
 
     if (picture) {
         picture.mv(uploads + "profile.jpg", error => {
             return res.status(500).send(error);
         });
     }
-    answer.pictureName = "profile.jpg";
 
     // Upload data from form
     const formData = req.body;
-    formData.image_name = "profile.jpg";
-    jsonData.push(formData);
+    formData.image_name = "profile.jpg"; 
 
-    fs.writeFile(`${dataLocation}images.json`, JSON.stringify(jsonData), (error) => {
+    fs.writeFile(`${pathToFrontend}/profile.json`, JSON.stringify(formData), (error) => {
         if (error) {
             console.log(error);
         }
     });
-    res.send(answer);
+    res.send(formData); // profile.json will overwrite user data everytime user updates
 });
 
+app.delete('/delete', (req, response) => {
 
-app.post("/profile/new", (req, res) => {
-    fs.readFile("../frontend/profile.json", (error, data) => {
-        if (error) {
+    const removePath = uploads + "profile.jpg"
+    console.log(removePath);
+    try {
+        fs.unlinkSync(removePath);
+    } catch (err) {
+        console.error(err);
+    }
+
+    fs.writeFile(`${pathToFrontend}/profile.json`, "[]", (error) => {
+        if(error) {
             console.log(error);
-            res.send("Error reading profile JSON")
-        } else {
-            const profile = JSON.parse(data)
-            console.log(req.body);
-            profile.push(req.body)
-            
-            fs.writeFile("../frontend/profile.json", JSON.stringify(profile), error => {
-                if (error) {
-                    console.log(error);
-                    res.send("Error writing profile JSON")
-                }
-            })
-            res.send(req.body)
+            res.send("Error in profile.json");
         }
-    })
-})
+    });
+
+    response.send("Your profile has been deleted");
+});
 
 
 app.listen(port, () => {

@@ -64,9 +64,10 @@ header span {
     font-weight: 100;
 	font-style: italic;
 }
-#addUser {
+
+#editor {
     width: 350px;
-	height: 750px;
+	height: 800px;
     top: 100px;
 	left: calc(50% - 175px);
 	border-radius: 15px;
@@ -75,20 +76,6 @@ header span {
 	position: absolute;
 	border-top: 4px solid rgb(243, 93, 66);
 	background: #1E202B;
-    font-family: 'Poppins', sans-serif;
-}
-
-#form {
-	width: 350px;
-	height: auto;
-    top: 850px;
-	left: calc(50% - 175px);
-	border-radius: 15px;
-	overflow: hidden;
-	margin: auto;
-	position: absolute;
-	border-top: 4px solid rgb(243, 93, 66);
-	background: #9056d3;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -117,14 +104,16 @@ label {
 }
 
 #pic {
+    height: 20px;
     background: #9056d3;
 }
 
-button {
+.button {
     display: flex;
     width: 120px;
     height: 30px;
     margin: auto;
+    margin-top: 15px;
     margin-bottom: 20px; 
     text-align: center;
     justify-content: center;
@@ -133,7 +122,9 @@ button {
     background-color: #1d8eda;
     color: #fff;
     font-family: 'Poppins', sans-serif;
+    cursor: pointer;
 }
+
 
 #userComponent {
     width: 350px;
@@ -171,18 +162,15 @@ button {
     font-weight: 400;
 }
 
-#profileImg {
+#userComponent img {
     width: 150px;
     height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: blue;
-}
-
-img {
-    top: 190px;
+    top: 75px;
 	left: 50%;
     transform: translateX(-50%);
     position: absolute;
+    border-radius: 50%;
     z-index: 100;
+    overflow: hidden;
+    background-color: blue;
 }

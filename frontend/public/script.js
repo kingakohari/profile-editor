@@ -3,9 +3,10 @@ const parseJSON = async (url) => {
     return response.json()
 }
 
-const userComponent = ({first_name, last_name, street, house_number, city, zip, country, intro}) => {
+const userComponent = ({image_name, first_name, last_name, street, house_number, city, zip, country, intro}) => {
     return `
     <div id="userComponent">
+        <img src="upload/${image_name}">
         <h1>${first_name} ${last_name}</h1>
         <p1>${street} ${house_number}</p1><br>
         <p1>${city}</p1><br>
@@ -16,128 +17,81 @@ const userComponent = ({first_name, last_name, street, house_number, city, zip, 
     `
 }
 
-
 const addUserComponent = () => {
     return`
-    <div id="addUser">
-        <label for="fname">First name</label><br>
-        <input type="text" class="fname inputField" name="fname"><br>
+    <div id="editor">
+        <form id="form">
+            <label>First name</label><br>
+            <input id="fname" type="text" class="inputField" name="fname"><br>
 
-        <label for="lname">Last name</label><br>
-        <input type="text" class="lname inputField" name="lname"><br>
+            <label>Last name</label><br>
+            <input id="lname" type="text" class="inputField" name="lname"><br>
 
-        <label for="street">Street</label><br>
-        <input type="text" class="street inputField" name="street"><br>
+            <label>Street</label><br>
+            <input id="street" type="text" class="inputField" name="street"><br>
 
-        <label for="hnumber">House number</label><br>
-        <input type="text" class="hnumber inputField" name="hnumber"><br>
+            <label>House number</label><br>
+            <input id="hnumber" type="text" class="inputField" name="hnumber"><br>
 
-        <label for="city">City</label><br>
-        <input type="text" class="city inputField" name="city"><br>
+            <label>City</label><br>
+            <input id="city" type="text" class="inputField" name="city"><br>
 
-        <label for="zip">Zip code</label><br>
-        <input type="number" class="zip inputField" name="zip" min="1000" max="99999"><br>
+            <label>Zip code</label><br>
+            <input id="zip" type="number" class="inputField" name="zip" min="1000" max="99999"><br>
 
-        <label for="country">Country</label><br>
-        <input type="text" class="country inputField" name="country"><br>
+            <label>Country</label><br>
+            <input id="country" type="text" class="inputField" name="country"><br>
 
-        <label for="intro">Introduction</label><br>
-        <textarea name="textarea" class="intro inputField" name="intro" placeholder = "About me"></textarea><br>
+            <label>Introduction</label><br>
+            <textarea id="intro" class="inputField" name="intro" placeholder="About me"></textarea><br>
 
-        <button class="buttonData">Save</button>
-        <button class="reset">Delete</button>
+            <label>Upload a profile picture</label><br>
+            <input id="pic" type="file" name="picture">
+
+            <button id="addUser" class="button">Save</button>
+        </form>
+        <button id="reset" class="button">Delete</button>
     </div>
     `
 }
 
-const pictureComponent = `
-    <form id="form">
-        <input type="text" class="inputField" name="title">
-        <input id="pic" type="file" name="picture">
-        <button class=buttonPic>Send</button>
-    </form>
-`;
-
-
 const loadEvent = async (e) => {
 
 
-    const result = await parseJSON("/api/v1/profile")
     const rootElement = document.getElementById("root")
     
     rootElement.insertAdjacentHTML("beforeend", addUserComponent())
+    
+    const formElement = document.getElementById("form")
 
-    rootElement.insertAdjacentHTML("afterend", pictureComponent);
-    
-    const inputFields = e.target.querySelectorAll(".inputField")
-    const resetBtn = e.target.querySelector(".reset") 
-    const dataBtn = e.target.querySelector(".buttonData")
-    const picBtn = e.target.querySelector(".buttonPic")
-    
-    const firstName = e.target.querySelector(".fname")
-    const lastName = e.target.querySelector(".lname")
-    const street = e.target.querySelector(".street")
-    const houseNumber = e.target.querySelector(".hnumber")
-    const city = e.target.querySelector(".city")
-    const zip = e.target.querySelector(".zip")
-    const country = e.target.querySelector(".country")
-    const intro = e.target.querySelector(".intro")
+    formElement.addEventListener("submit", (e) => {
         
-/* Empty all fields on button click: */
-
-    resetBtn.addEventListener("click", () => {
-        inputFields.forEach(input => input.value = "")
-        document.getElementById("pic").value ="" 
-    })
-
-    dataBtn.addEventListener("click", () => {
-
-
-        const userData = {
-            first_name: firstName.value,
-            last_name: lastName.value,
-            street: street.value,
-            house_number: houseNumber.value,
-            city: city.value,
-            zip: zip.value,
-            country: country.value,
-            intro: intro.value,
-        }
-    
-        fetch("/profile/new", {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(userData)
-            })
-            .then(async data => {
-                const user = await data.json()
-
-                rootElement.innerHTML = userComponent(user)
-            })        
-    })
-
-    const formElement = document.getElementById("form");
-
-    formElement.addEventListener("submit", e => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("title", e.target.querySelector(`input[name="title"]`).value);
-        formData.append("picture", e.target.querySelector(`input[name="picture"]`).files[0]);
+        
+        formData.append("first_name", document.getElementById("fname").value);
+        formData.append("last_name", document.getElementById("lname").value);
+        formData.append("street", document.getElementById("street").value);
+        formData.append("house_number", document.getElementById("hnumber").value);
+        formData.append("city", document.getElementById("city").value);
+        formData.append("zip", document.getElementById("zip").value);
+        formData.append("country", document.getElementById("country").value);
+        formData.append("intro", document.getElementById("intro").value);
+        formData.append("picture", document.getElementById("pic").files[0]);
+        
 
         const fetchSettings = {
             method: "POST",
             body: formData
         };
 
-        fetch("/", fetchSettings)
+        fetch("/profile/new", fetchSettings)
             .then(async data => {
                 if (data.status === 200) {
                     const res = await data.json();
 
-                    form.outerHTML = `<img id="profileImg" src=upload/${res.pictureName}>`
+                    rootElement.innerHTML = userComponent(res)
                     console.dir(data);
                 } 
             })
@@ -145,6 +99,23 @@ const loadEvent = async (e) => {
                 console.dir(error);
             })
     });
+
+    const inputFields = document.querySelectorAll(".inputField")
+    const resetBtn = document.getElementById("reset")
+
+    resetBtn.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        inputFields.forEach(input => input.value = "")
+        document.getElementById("pic").value ="" 
+
+        fetch("/delete/", {
+            method: "DELETE",
+        })
+        .then((res) => res.text()) // or res.json()
+		.then((res) => console.log(res));
+    })
 }
 
 window.addEventListener("load", loadEvent)
