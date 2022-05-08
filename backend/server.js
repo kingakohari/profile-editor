@@ -63,7 +63,7 @@ app.post("/profile/new", (req, res) => {
             console.log(error);
         }
     });
-    res.send(formData); // profile.json will overwrite user data everytime user updates
+    res.send(formData); // profile.json will have user data overwritten everytime user updates
 });
 
 app.delete('/delete', (req, response) => {
