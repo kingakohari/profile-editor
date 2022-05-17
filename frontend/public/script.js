@@ -1,7 +1,7 @@
-const parseJSON = async (url) => {
+/* const parseJSON = async (url) => {
     const response = await fetch (url)
     return response.json()
-}
+} */
 
 const userComponent = ({image_name, first_name, last_name, street, house_number, city, zip, country, intro}) => {
     return `
